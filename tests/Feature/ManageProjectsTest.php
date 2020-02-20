@@ -102,4 +102,28 @@ class ManageProjectsTest extends TestCase
 
         $this->assertDatabaseHas('projects', $attributes);
     }
+
+    /** @test */
+    public function unauthorized_users_cannot_delete_a_project()
+    {
+        $project = app(ProjectFactory::class)->create();
+
+        $this->delete($project->path())->assertRedirect('/login');
+
+        $this->signIn();
+
+        $this->delete($project->path())->assertStatus(403);
+    }
+
+    /** @test */
+    public function a_user_can_delete_a_project()
+    {
+        $this->withoutExceptionHandling();
+
+        $project = app(ProjectFactory::class)->create();
+
+        $this->be($project->owner)->delete($project->path())->assertRedirect('/projects');
+
+        $this->assertDatabaseMissing('projects', $project->only('id'));
+    }
 }
