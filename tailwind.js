@@ -46,6 +46,14 @@ let defaultConfig = require('tailwindcss/defaultConfig')()
 let colors = {
   'transparent': 'transparent',
 
+    default: 'var(--text-default-color)',
+    accent: 'var(--text-accent-color)',
+    'accent-light': 'var(--text-accent-light-color)',
+    muted: 'var(--text-muted-color)',
+    'muted-light': 'var(--text-muted-light-color)',
+    'error': 'var(--text-error-color)',
+
+
   'black': '#22292f',
   'grey-darkest': '#3d4852',
   'grey-darker': '#606f7b',
@@ -127,7 +135,7 @@ let colors = {
   'pink-light': '#fa7ea8',
   'pink-lighter': '#ffbbca',
   'pink-lightest': '#ffebef',
-}
+};
 
 module.exports = {
 
@@ -364,7 +372,12 @@ module.exports = {
   |
   */
 
-  backgroundColors: colors,
+  backgroundColors: {
+      page: 'var(--page-background-color)',
+      card: 'var(--card-background-color)',
+      button: 'var(--button-background-color)',
+      header: 'var(--header-background-color)'
+  },
 
 
   /*
@@ -429,7 +442,7 @@ module.exports = {
   |
   */
 
-  borderColors: global.Object.assign({ default: colors['grey-light'] }, colors),
+  borderColors: global.Object.assign({ default: colors['blue-light'] }, colors),
 
 
   /*

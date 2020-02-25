@@ -39,6 +39,23 @@ class Project extends Model
         return $this->hasMany('App\Task');
     }
 
+    /**
+     * Add a task to the project.
+     *
+     * @param array $tasks
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function addTasks($tasks)
+    {
+        return $this->tasks()->createMany($tasks);
+    }
+
+    /**
+     * Add a task to the project.
+     *
+     * @param  string $body
+     * @return \Illuminate\Database\Eloquent\Model
+     */
     public function addTask($body)
     {
         return $this->tasks()->create(compact('body'));
@@ -56,6 +73,6 @@ class Project extends Model
 
     public function members()
     {
-        return $this->belongsToMany('App\User', 'project_members');
+        return $this->belongsToMany('App\User', 'project_members')->withTimestamps();
     }
 }

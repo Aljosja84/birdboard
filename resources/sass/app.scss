@@ -16,6 +16,7 @@
  * @import "tailwindcss/preflight";
  */
 @tailwind preflight;
+@import 'components/dropdown';
 
 /**
  * This injects any component classes registered by plugins.
@@ -47,12 +48,23 @@
 }
 
 .button {
-    @apply .bg-blue .text-white .no-underline .rounded-lg .text-sm .py-2 .px-5;
-    box-shadow: 0 2px 7px 0 #6cb1ff;
+    @apply .bg-button .no-underline .rounded-lg .text-sm .py-2 .px-5;
+    color: white;
+
+    .theme-light & {
+        box-shadow: 0 2px 7px 0 #6cb1ff;
+    }
+
+    .theme-dark & {
+        box-shadow: 0 2px 7px 0 #00658b;
+    }
+
+
 }
 
 .card {
-    @apply .bg-white .p-5 .rounded-lg .shadow;
+    @apply .bg-card .p-5 .rounded-lg .shadow;
+    color: var(--text-default-color);
 }
 /**
  * This injects all of Tailwind's utility classes, generated based on your
@@ -79,3 +91,31 @@
  * @import "utilities/skew-transforms";
  */
 
+.theme-light {
+    --page-background-color: #f5f6f9;
+    --card-background-color: white;
+    --button-background-color: #47cdff;
+    --header-background-color: white;
+
+    --text-default-color: #222;
+    --text-accent-color: #47cdff;
+    --text-accent-light-color: #8ae2fe;
+    --text-muted-color: rgba(0, 0, 0, 0.3);
+    --text-muted-light-color: rgba(255, 255, 255, 0.1);
+    --text-muted-light-color: #e1e6e8;
+    --text-error-color: red;
+}
+
+.theme-dark {
+    --page-background-color: #17181e;
+    --card-background-color: #1f2027;
+    --button-background-color: #59b6f9;
+    --header-background-color: #1f2027;
+
+    --text-default-color: #fff;
+    --text-muted-color: rgba(255, 255, 255, 0.5);
+    --text-muted-light-color: rgba(255, 255, 255, 0.3);
+    --text-accent-color: #47cdff;
+    --text-accent-light-color: #8ae2fe;
+    --text-error-color: red;
+}

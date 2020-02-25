@@ -15,7 +15,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = auth()->user()->projects;
+        $projects = auth()->user()->accessibleProjects();
 
         return view('projects.index', compact('projects'));
     }
@@ -34,17 +34,27 @@ class ProjectsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return mixed
      */
     public function store(Request $request)
     {
-
         // create
         $project = auth()->user()->projects()->create(request()->validate([
             'title' => 'required',
             'description' => 'required|max:120',
             'notes' => 'max:255'
         ]));
+
+        // check if there are any tasks within the request and addTask() them accordingly
+        if ($tasks = request('tasks')) {
+            $project->addTasks(array_filter($tasks, function ($task) {
+                return $task['body'] != '';
+            }));
+        }
+
+        if(request()->wantsJson()) {
+            return ['message' => $project->path()];
+        }
 
         // redirect
         return redirect($project->path());
@@ -101,7 +111,7 @@ class ProjectsController extends Controller
      */
     public function destroy(Project $project)
     {
-        $this->authorize('update', $project);
+        $this->authorize('manage', $project);
 
         $project->delete();
 

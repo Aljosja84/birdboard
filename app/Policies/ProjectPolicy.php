@@ -10,6 +10,16 @@ class ProjectPolicy
 {
     use HandlesAuthorization;
 
+    public function manage(User $user, Project $project)
+    {
+        return $user->is($project->owner);
+    }
+
+    /**
+     * @param User $user
+     * @param Project $project
+     * @return bool
+     */
     public function update(User $user, Project $project)
     {
         return $user->is($project->owner) || $project->members->contains($user);
